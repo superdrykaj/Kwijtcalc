@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+/*
+ * Ontwerpprincipes: rustig, veel witruimte, subtiele randen en een donkerblauw
+ * accent. Geen kleurverlopen of animaties die de aandacht van de cijfers halen.
+ */
+@theme {
+  --color-canvas: #f6f7f9;
+  --color-surface: #ffffff;
+  --color-line: #e3e6eb;
+  --color-line-strong: #ced3db;
+  --color-ink: #161c26;
+  --color-ink-muted: #5b6675;
+  --color-brand: #0f3d63;
+  --color-brand-strong: #0b2e4b;
+  --color-brand-tint: #eef4f9;
+  --color-danger: #a4231b;
+  --color-danger-tint: #fdf2f1;
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "Menlo", "Consolas", monospace;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+/* Bedragen altijd rechts uitgelijnd en met gelijke cijferbreedte, zodat
+   kolommen met geldbedragen visueel kloppen. */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+:where(a, button, input, select, textarea):focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 18mm 16mm;
+  }
+
+  html,
+  body {
+    background: #ffffff;
+    font-size: 10.5pt;
+  }
+}
