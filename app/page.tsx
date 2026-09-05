@@ -25,7 +25,7 @@ export default function HomePage() {
         <p className="text-sm font-medium text-brand">
           Rekenhulp voor gemeentelijke belastingen
         </p>
-        <h1 className="mt-3 text-3xl font-semibold leading-tight tracking-tight text-ink sm:text-4xl">
+        <h1 className="mt-3 text-balance text-2xl font-semibold leading-tight tracking-tight text-ink hyphens-auto sm:text-4xl">
           Van inkomensgegevens naar een controleerbare berekening.
         </h1>
         <p className="mt-5 text-lg leading-relaxed text-ink-muted">
@@ -75,6 +75,22 @@ export default function HomePage() {
             Bekijk de gebruikte formules en druk de onderbouwing af.
           </li>
         </ol>
+      </section>
+
+      <section className="mt-6 rounded-lg border border-line bg-surface p-6 sm:p-8">
+        <h2 className="text-base font-semibold text-ink">Ook beschikbaar</h2>
+        <div className="mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <Link
+            href="/beroep"
+            className="text-sm font-medium text-brand underline-offset-4 hover:underline"
+          >
+            Beroepsassistent
+          </Link>
+          <p className="text-sm leading-relaxed text-ink-muted">
+            Lees een beroepschrift in en bekijk welke beroepsgronden in de tekst
+            worden herkend. De pdf wordt volledig op het eigen apparaat verwerkt.
+          </p>
+        </div>
       </section>
 
       <p className="mt-10 max-w-3xl text-sm leading-relaxed text-ink-muted">

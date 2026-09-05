@@ -16,19 +16,25 @@ export default function RootLayout({
       <body className="min-h-screen antialiased">
         <div className="flex min-h-screen flex-col">
           <header className="border-b border-line bg-surface print:hidden">
-            <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-4 px-5 py-4">
+            <div className="mx-auto flex w-full max-w-5xl flex-wrap items-center justify-between gap-x-4 gap-y-2 px-5 py-4">
               <Link
                 href="/"
                 className="text-base font-semibold tracking-tight text-ink"
               >
                 Kwijt<span className="text-brand">Calc</span>
               </Link>
-              <nav aria-label="Hoofdmenu">
+              <nav aria-label="Hoofdmenu" className="flex flex-wrap items-center gap-x-5 gap-y-1">
                 <Link
                   href="/berekening"
                   className="text-sm font-medium text-brand underline-offset-4 hover:underline"
                 >
-                  Nieuwe inkomensberekening
+                  Inkomensberekening
+                </Link>
+                <Link
+                  href="/beroep"
+                  className="text-sm font-medium text-brand underline-offset-4 hover:underline"
+                >
+                  Beroepsassistent
                 </Link>
               </nav>
             </div>
