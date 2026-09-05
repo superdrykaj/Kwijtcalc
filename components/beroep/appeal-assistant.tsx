@@ -23,7 +23,9 @@ export function AppealAssistant() {
   const [text, setText] = useState("");
   const [source, setSource] = useState<SourceInfo | null>(null);
   const [deselected, setDeselected] = useState<readonly string[]>([]);
-  const [copied, setCopied] = useState(false);
+  const [copyState, setCopyState] = useState<"idle" | "gelukt" | "mislukt">(
+    "idle",
+  );
 
   const grounds = useMemo(() => suggestGrounds(text), [text]);
   const chosen = grounds.filter((ground) => !deselected.includes(ground.id));
@@ -32,7 +34,7 @@ export function AppealAssistant() {
     setText(result.text);
     setSource({ fileName: result.fileName, pageNumbers: result.pageNumbers });
     setDeselected([]);
-    setCopied(false);
+    setCopyState("idle");
   }
 
   function toggleGround(id: string) {
@@ -43,7 +45,8 @@ export function AppealAssistant() {
     );
   }
 
-  async function copyOverview() {
+  /** Zet het overzicht op het klembord. Werkt niet in elke browser. */
+  function overviewText(): string {
     const lines = chosen.map((ground) => {
       const pages = [
         ...new Set(
@@ -55,13 +58,19 @@ export function AppealAssistant() {
       const bron = pages.length > 0 ? ` (pagina ${pages.join(", ")})` : "";
       return `- ${ground.title}${bron}`;
     });
+    return `Voorgestelde beroepsgronden\n${lines.join("\n")}`;
+  }
+
+  async function copyOverview() {
+    // Het klembord is alleen beschikbaar op een beveiligde verbinding. Op een
+    // telefoon via een gewoon http-adres lukt dit dus niet; dan tonen we het
+    // overzicht zodat de medewerker het zelf kan selecteren.
     try {
-      await navigator.clipboard.writeText(
-        `Voorgestelde beroepsgronden\n${lines.join("\n")}`,
-      );
-      setCopied(true);
+      if (!navigator.clipboard) throw new Error("Geen klembord beschikbaar.");
+      await navigator.clipboard.writeText(overviewText());
+      setCopyState("gelukt");
     } catch {
-      setCopied(false);
+      setCopyState("mislukt");
     }
   }
 
@@ -93,7 +102,7 @@ export function AppealAssistant() {
           value={text}
           onChange={(event) => {
             setText(event.target.value);
-            setCopied(false);
+            setCopyState("idle");
           }}
           rows={14}
           placeholder="Neem de tekst over uit een pdf, of plak de tekst hier."
@@ -187,12 +196,24 @@ export function AppealAssistant() {
               >
                 Overzicht kopiëren
               </button>
-              {copied ? (
+              {copyState === "gelukt" ? (
                 <span role="status" className="text-xs text-ink-muted">
                   Overzicht gekopieerd naar het klembord.
                 </span>
               ) : null}
+              {copyState === "mislukt" ? (
+                <span role="status" className="text-xs text-ink-muted">
+                  Kopiëren lukt niet in deze browser. Selecteer het overzicht
+                  hieronder zelf.
+                </span>
+              ) : null}
             </div>
+
+            {copyState === "mislukt" ? (
+              <pre className="mt-3 overflow-x-auto whitespace-pre-wrap rounded-md border border-line bg-canvas p-3 text-xs text-ink">
+                {overviewText()}
+              </pre>
+            ) : null}
           </>
         )}
 
