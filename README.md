@@ -95,7 +95,7 @@ toevoegen is één regel in `correction-categories.ts`.
 
 ## Tests
 
-62 unittests, uit te voeren met `npm test`. Naast de rekenkundige testgevallen
+63 unittests, uit te voeren met `npm test`. Naast de rekenkundige testgevallen
 uit de briefing (vier weken met één correctie, geen correcties, één periode,
 bedragen met decimalen, correctie gelijk aan het ontvangen bedrag, correctie
 hoger dan het ontvangen bedrag, lege regels, negatieve bedragen) zijn onder

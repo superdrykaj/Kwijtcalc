@@ -191,10 +191,23 @@ describe("omrekening tussen periode-eenheden", () => {
     expect(result.fourWeekAverageCents).toBe(220000);
   });
 
-  it("benoemt bij weken dat het weekgemiddelde het periodegemiddelde is", () => {
+  it("noemt het gemiddelde per periode bij weekinvoer het weekinkomen", () => {
     const result = calculate([{ received: 100 }]);
-    const step = result.formulaSteps.find((s) => s.key === "week_average");
-    expect(step?.formula).toBe("gelijk aan het gemiddelde per periode");
+    const step = result.formulaSteps.find((s) => s.key === "average_per_period");
+    expect(step?.label).toBe("Gemiddeld weekinkomen");
+    expect(step?.formula).toBe("totaal meetellend inkomen / aantal weken");
+  });
+
+  it("herhaalt de eigen eenheid niet als aparte omrekenstap", () => {
+    const weekly = calculate([{ received: 100 }]);
+    expect(weekly.formulaSteps.map((s) => s.key)).not.toContain("week_average");
+    expect(weekly.formulaSteps.map((s) => s.key)).toContain("month_average");
+
+    const monthly = calculate([{ received: 100 }], "month");
+    expect(monthly.formulaSteps.map((s) => s.key)).not.toContain("month_average");
+    expect(monthly.formulaSteps.find((s) => s.key === "average_per_period")?.label).toBe(
+      "Gemiddeld maandinkomen",
+    );
   });
 });
 

@@ -186,32 +186,33 @@ export function calculateAverageIncome(
     },
     {
       key: "average_per_period",
-      label: `Gemiddeld inkomen per ${unit.singular}`,
+      label: unit.averageLabel,
       formula: `totaal meetellend inkomen / aantal ${unit.plural}`,
       substitution: `${formatCents(totalCountingCents)} / ${periodCount}`,
       resultCents: averagePerPeriodCents,
     },
-    {
-      key: "week_average",
-      label: "Gemiddeld weekinkomen",
-      formula: conversions.week.formula,
-      substitution: conversions.week.substitute(averageText),
-      resultCents: weekAverageCents,
-    },
-    {
-      key: "four_week_average",
-      label: "Gemiddeld 4-wekeninkomen",
-      formula: conversions.four_weeks.formula,
-      substitution: conversions.four_weeks.substitute(averageText),
-      resultCents: fourWeekAverageCents,
-    },
-    {
-      key: "month_average",
-      label: "Gemiddeld maandinkomen",
-      formula: conversions.month.formula,
-      substitution: conversions.month.substitute(averageText),
-      resultCents: monthAverageCents,
-    },
+    // De omrekening naar de eigen eenheid zou het gemiddelde hierboven
+    // herhalen; die stap slaan we over.
+    ...(
+      [
+        ["week_average", "week", "Gemiddeld weekinkomen", weekAverageCents],
+        [
+          "four_week_average",
+          "four_weeks",
+          "Gemiddeld 4-wekeninkomen",
+          fourWeekAverageCents,
+        ],
+        ["month_average", "month", "Gemiddeld maandinkomen", monthAverageCents],
+      ] as const
+    )
+      .filter(([, targetUnit]) => targetUnit !== input.periodUnit)
+      .map(([key, targetUnit, label, resultCents]) => ({
+        key,
+        label,
+        formula: conversions[targetUnit].formula,
+        substitution: conversions[targetUnit].substitute(averageText),
+        resultCents,
+      })),
   ];
 
   return {

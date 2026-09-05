@@ -20,6 +20,8 @@ export interface PeriodUnitDefinition {
   readonly plural: string;
   /** Voorvoegsel voor een automatisch periodelabel, bijvoorbeeld "Week". */
   readonly labelPrefix: string;
+  /** Naam van het gemiddelde, bijvoorbeeld "Gemiddeld weekinkomen". */
+  readonly averageLabel: string;
   /**
    * Hoeveel van deze perioden gaan er in een jaar? Als exacte breuk, omdat
    * 4-wekenperioden (13 per jaar) en maanden (12 per jaar) anders niet
@@ -34,6 +36,7 @@ export const PERIOD_UNITS: readonly PeriodUnitDefinition[] = [
     singular: "week",
     plural: "weken",
     labelPrefix: "Week",
+    averageLabel: "Gemiddeld weekinkomen",
     perYear: { numerator: 52, denominator: 1 },
   },
   {
@@ -41,6 +44,7 @@ export const PERIOD_UNITS: readonly PeriodUnitDefinition[] = [
     singular: "4-wekenperiode",
     plural: "4-wekenperioden",
     labelPrefix: "Periode",
+    averageLabel: "Gemiddeld 4-wekeninkomen",
     perYear: { numerator: 13, denominator: 1 },
   },
   {
@@ -48,6 +52,7 @@ export const PERIOD_UNITS: readonly PeriodUnitDefinition[] = [
     singular: "maand",
     plural: "maanden",
     labelPrefix: "Maand",
+    averageLabel: "Gemiddeld maandinkomen",
     perYear: { numerator: 12, denominator: 1 },
   },
 ] as const;
