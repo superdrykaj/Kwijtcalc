@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "seed": "tsx scripts/seed.ts",
+    "demo-data": "tsx scripts/demo-data.ts",
     "test": "vitest run",
     "hash-password": "tsx scripts/hash-password.ts",
     "placeholders": "node scripts/generate-placeholders.mjs"

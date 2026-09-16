@@ -1,5 +1,4 @@
-import "server-only";
-
+// Let op: dit bestand draait alleen op de server (leest en schrijft de database).
 import { getDb } from "./db";
 import type { ContactMessage } from "./types";
 

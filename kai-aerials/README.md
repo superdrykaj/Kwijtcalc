@@ -44,6 +44,7 @@ npm run dev       # http://localhost:3000
 | `npm run lint`            | ESLint                                                |
 | `npm run seed`            | Voorbeeldgegevens toevoegen                           |
 | `npm run seed -- --reset` | Alles wissen en opnieuw vullen                        |
+| `npm run demo-data`       | Voorbeeldboekingen en een voorbeeldbericht toevoegen   |
 | `npm run hash-password`   | Wachtwoord-hash en sessiesleutel maken                |
 | `npm run placeholders`    | De tijdelijke voorbeeldafbeeldingen opnieuw genereren |
 
@@ -195,10 +196,23 @@ of "Prijs in overleg" kan allemaal.
 invullen zijn geel gemarkeerd, zoals je vestigingsplaats, KvK-nummer,
 bewaartermijn en hostingpartij. Laat de tekst controleren voordat je publiceert.
 
+### Voorbeeldboekingen om mee te oefenen
+
+Wil je de beheeromgeving met gevulde schermen bekijken, voeg dan een paar
+voorbeeldaanvragen en een voorbeeldbericht toe:
+
+```bash
+npm run demo-data
+```
+
+Alles wat dit script aanmaakt begint met `DEMO` of `DEMOGEGEVENS`, zodat je het
+altijd herkent en er nooit iets echts tussen kan komen te staan.
+
 ### Alle voorbeeldgegevens wissen
 
 ```bash
-npm run seed -- --reset   # verwijdert álles en zet alleen de voorbeelden terug
+npm run seed -- --reset   # verwijdert álles, ook de demoboekingen, en zet
+                          # alleen de voorbeeldprojecten en -diensten terug
 ```
 
 ---
