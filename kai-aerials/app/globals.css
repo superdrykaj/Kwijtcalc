@@ -1,0 +1,324 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Ontwerpsysteem — kleuren, typografie en herbruikbare onderdelen.
+   Pas de kleuren hieronder aan om de hele site een andere uitstraling te geven.
+   ========================================================================== */
+
+@theme {
+  /* Donkere, rustige basis met één blauwe accentkleur. */
+  --color-ink-950: #05070c;
+  --color-ink-900: #080b12;
+  --color-ink-850: #0b0f18;
+  --color-ink-800: #10151f;
+  --color-ink-700: #172031;
+  --color-ink-600: #22304a;
+
+  --color-mist-100: #eef2f9;
+  --color-mist-300: #c3cddd;
+  --color-mist-500: #8d9ab1;
+  --color-mist-600: #6c7a92;
+
+  --color-azure-300: #8ec5ff;
+  --color-azure-400: #5aa6ff;
+  --color-azure-500: #2f86f5;
+  --color-azure-600: #1c6ad4;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-sora), var(--font-inter), ui-sans-serif, sans-serif;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Next.js mag dit tijdens navigatie tijdelijk uitzetten. */
+  scroll-padding-top: 5.5rem;
+}
+
+body {
+  background-color: var(--color-ink-950);
+  color: var(--color-mist-100);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Zichtbare toetsenbordfocus op de hele site. */
+:where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-azure-400);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@layer components {
+  .container-page {
+    width: 100%;
+    margin-inline: auto;
+    max-width: 78rem;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 1024px) {
+    .container-page {
+      padding-inline: 2rem;
+    }
+  }
+
+  /* Knoppen ------------------------------------------------------------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 999px;
+    padding: 0.8rem 1.6rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.2;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease,
+      transform 0.2s ease;
+    cursor: pointer;
+  }
+  .btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+  .btn:not(:disabled):hover {
+    transform: translateY(-1px);
+  }
+
+  .btn-primary {
+    background-color: var(--color-azure-500);
+    color: #04070d;
+  }
+  .btn-primary:not(:disabled):hover {
+    background-color: var(--color-azure-400);
+  }
+
+  .btn-ghost {
+    border: 1px solid color-mix(in oklab, var(--color-mist-500) 40%, transparent);
+    color: var(--color-mist-100);
+    background-color: color-mix(in oklab, var(--color-ink-800) 60%, transparent);
+  }
+  .btn-ghost:not(:disabled):hover {
+    border-color: var(--color-azure-400);
+    color: var(--color-azure-300);
+  }
+
+  .btn-quiet {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    border: 1px solid color-mix(in oklab, var(--color-mist-500) 30%, transparent);
+    color: var(--color-mist-300);
+  }
+  .btn-quiet:not(:disabled):hover {
+    color: var(--color-mist-100);
+    border-color: var(--color-mist-500);
+  }
+
+  .btn-danger {
+    background-color: #7f1d2e;
+    color: #ffe6ea;
+  }
+  .btn-danger:not(:disabled):hover {
+    background-color: #9b2438;
+  }
+
+  /* Kaarten ------------------------------------------------------------- */
+  .card {
+    border-radius: 1rem;
+    border: 1px solid color-mix(in oklab, var(--color-ink-600) 70%, transparent);
+    background-color: color-mix(in oklab, var(--color-ink-850) 85%, transparent);
+  }
+
+  /* Formulieren --------------------------------------------------------- */
+  .field-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-mist-300);
+    margin-bottom: 0.4rem;
+  }
+
+  .field-input {
+    width: 100%;
+    border-radius: 0.65rem;
+    border: 1px solid color-mix(in oklab, var(--color-ink-600) 90%, transparent);
+    background-color: var(--color-ink-900);
+    padding: 0.7rem 0.85rem;
+    font-size: 0.95rem;
+    color: var(--color-mist-100);
+    transition: border-color 0.15s ease;
+  }
+  .field-input::placeholder {
+    color: var(--color-mist-600);
+  }
+  .field-input:focus {
+    border-color: var(--color-azure-400);
+  }
+  .field-input[aria-invalid="true"] {
+    border-color: #f87171;
+  }
+
+  .field-error {
+    margin-top: 0.35rem;
+    font-size: 0.82rem;
+    color: #fca5a5;
+  }
+
+  .field-hint {
+    margin-top: 0.35rem;
+    font-size: 0.82rem;
+    color: var(--color-mist-500);
+  }
+
+  /* Labels en meldingen -------------------------------------------------- */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in oklab, var(--color-mist-500) 35%, transparent);
+    padding: 0.25rem 0.7rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-mist-300);
+  }
+
+  .notice {
+    border-radius: 0.75rem;
+    border: 1px solid;
+    padding: 0.85rem 1rem;
+    font-size: 0.9rem;
+  }
+  .notice-info {
+    border-color: color-mix(in oklab, var(--color-azure-500) 45%, transparent);
+    background-color: color-mix(in oklab, var(--color-azure-600) 14%, transparent);
+    color: var(--color-azure-300);
+  }
+  .notice-success {
+    border-color: #14532d;
+    background-color: rgba(21, 128, 61, 0.16);
+    color: #86efac;
+  }
+  .notice-error {
+    border-color: #7f1d1d;
+    background-color: rgba(153, 27, 27, 0.16);
+    color: #fca5a5;
+  }
+  .notice-warning {
+    border-color: #78350f;
+    background-color: rgba(180, 83, 9, 0.16);
+    color: #fcd34d;
+  }
+
+  /* Typografie ---------------------------------------------------------- */
+  .display-1 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.04;
+    font-size: clamp(2.6rem, 7vw, 5rem);
+  }
+  .display-2 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    font-size: clamp(1.9rem, 3.6vw, 2.9rem);
+  }
+  .display-3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    font-size: clamp(1.25rem, 2vw, 1.6rem);
+  }
+  .eyebrow {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-azure-300);
+  }
+  .lede {
+    font-size: clamp(1.02rem, 1.4vw, 1.2rem);
+    line-height: 1.7;
+    color: var(--color-mist-300);
+  }
+  .prose-body p {
+    margin-bottom: 1rem;
+    line-height: 1.75;
+    color: var(--color-mist-300);
+  }
+  .prose-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Subtiele animaties --------------------------------------------------- */
+  .rise {
+    animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .fade {
+    animation: fade 0.9s ease both;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Element dat pas verschijnt als het in beeld komt. */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal[data-visible="true"] {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
