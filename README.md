@@ -189,6 +189,16 @@ Dit schrijft de volledige site naar de map `out` (ongeveer 3 MB). Upload de
 inhoud daarvan naar de map van het (sub)domein. Er is geen Node.js, PHP of
 database nodig op de server, alleen de bestanden.
 
+Draait de site niet op een eigen (sub)domein maar in een map van een bestaande
+website, bijvoorbeeld `hoogbeeldmedia.nl/kwijtcalc`, geef die map dan mee:
+
+```bash
+npm run build:static -- /kwijtcalc
+```
+
+Zonder die opgave zoekt de pagina haar bestanden in de hoofdmap van de website
+en blijft het scherm leeg.
+
 Let op: bij deze manier wordt de site niet automatisch bijgewerkt. Na elke
 wijziging moet `npm run build:static` opnieuw draaien en de map `out` opnieuw
 worden geüpload.
