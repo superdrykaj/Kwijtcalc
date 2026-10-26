@@ -1,0 +1,21 @@
+# Fly.io-configuratie voor KwijtCalc.
+#
+# De applicatie is een verzameling statische bestanden die door nginx wordt
+# uitgeleverd; zie Dockerfile en deploy/nginx.conf. Er is geen database,
+# geen opslag en geen achtergrondproces.
+#
+# Heet de app bij jou anders, pas dan alleen de regel hieronder aan.
+
+app = "kwijtcalc"
+primary_region = "ams"
+
+[build]
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  # De machine slaapt vanzelf als er niemand op de site is en start weer op
+  # bij het eerste bezoek. Dat scheelt kosten bij een pilot.
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0

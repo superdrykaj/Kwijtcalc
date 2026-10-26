@@ -203,6 +203,34 @@ Let op: bij deze manier wordt de site niet automatisch bijgewerkt. Na elke
 wijziging moet `npm run build:static` opnieuw draaien en de map `out` opnieuw
 worden geüpload.
 
+### 3. Fly.io
+
+In de repository staat alles klaar: `Dockerfile` bouwt de site en levert hem uit
+met nginx, `deploy/nginx.conf` bevat de webserverinstellingen en `fly.toml` de
+app-instellingen. De machine slaapt vanzelf bij inactiviteit.
+
+Eenmalig instellen:
+
+1. Maak in Fly een implementatietoken aan (Tokens, Deploy token).
+2. Zet dat token in GitHub onder Settings, Secrets and variables, Actions als
+   `FLY_API_TOKEN`.
+
+Daarna rolt elke push naar `main` de nieuwe versie uit. Handmatig starten kan
+via het tabblad Actions, ook vanaf een telefoon. Uitrollen vanaf een eigen
+computer kan met `fly deploy`.
+
+Twee instellingen in `deploy/nginx.conf` zijn nodig en niet vanzelfsprekend:
+`absolute_redirect off` omdat nginx achter de proxy van Fly het publieke adres
+niet kent, en een eigen regel voor `.mjs`-bestanden omdat nginx die anders als
+download aanbiedt, waardoor de pdf-lezer niet start.
+
+Moet de site onder een submap van een bestaande website draaien, geef die dan
+mee bij het bouwen van het image:
+
+```bash
+docker build --build-arg BASE_PATH=/kwijtcalc .
+```
+
 ### Beveiligde verbinding
 
 Gebruik in beide gevallen https. Browsers geven alleen op een beveiligde

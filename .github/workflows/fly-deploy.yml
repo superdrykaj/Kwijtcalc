@@ -1,0 +1,40 @@
+# Zet KwijtCalc op Fly.io.
+#
+# Eenmalig instellen: maak in Fly een implementatietoken aan en zet dat in
+# GitHub onder Settings, Secrets and variables, Actions als FLY_API_TOKEN.
+# Daarna kan deze werkstroom ook vanaf een telefoon worden gestart via het
+# tabblad Actions, met de knop "Run workflow".
+
+name: Uitrollen naar Fly.io
+
+on:
+  push:
+    branches:
+      - main
+      - claude/kwijtcalc-mvp-77oilp
+  workflow_dispatch:
+
+jobs:
+  uitrollen:
+    name: Bouwen en uitrollen
+    runs-on: ubuntu-latest
+    # Twee uitrolacties tegelijk zouden elkaar in de weg zitten.
+    concurrency:
+      group: fly-deploy
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+
+      # Bestaat de app al, dan verandert deze stap niets.
+      - name: App aanmaken als die nog niet bestaat
+        run: flyctl apps create kwijtcalc --org personal || true
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      # Bouwen gebeurt op de bouwserver van Fly, zodat hier geen Docker nodig is.
+      - name: Uitrollen
+        run: flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
