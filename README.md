@@ -25,6 +25,7 @@ npm run dev        # http://localhost:3000
 | ------------------- | ------------------------------------------- |
 | `npm run dev`       | Ontwikkelserver                             |
 | `npm run build`     | Productiebuild (Vercel-compatibel)          |
+| `npm run build:static` | Losse bestanden in `out/` voor gewone webhosting |
 | `npm test`          | Unittests van de rekenengine en validatie   |
 | `npm run typecheck` | TypeScript-controle                         |
 | `npm run lint`      | ESLint                                      |
@@ -161,6 +162,43 @@ De volledige flow is daarnaast in de browser gecontroleerd met een fictief
 beroepschrift van vijf pagina's (waaronder één scan zonder tekstlaag) en met een
 dossier van honderd pagina's. Daarbij is met een netwerkcontrole vastgesteld dat
 er geen enkel extern verzoek en geen enkele verzending plaatsvindt.
+
+## Publiceren
+
+De applicatie draait volledig in de browser: geen server, geen database, geen
+API-routes. Daardoor zijn er twee manieren om hem online te zetten.
+
+### 1. Vercel (aanbevolen)
+
+Koppel de repository aan [vercel.com](https://vercel.com) en kies Deploy. Er
+zijn geen instellingen of sleutels nodig. Elke push naar de productiebranch
+levert een nieuwe versie op. Een eigen (sub)domein koppel je in Vercel onder
+Settings, Domains; Vercel noemt daarna het DNS-record dat bij de domeinnaam
+moet worden gezet en regelt het https-certificaat.
+
+### 2. Gewone webhosting
+
+Voor hosting zonder Node.js, bijvoorbeeld een bestaand webpakket met alleen
+FTP:
+
+```bash
+npm run build:static
+```
+
+Dit schrijft de volledige site naar de map `out` (ongeveer 3 MB). Upload de
+inhoud daarvan naar de map van het (sub)domein. Er is geen Node.js, PHP of
+database nodig op de server, alleen de bestanden.
+
+Let op: bij deze manier wordt de site niet automatisch bijgewerkt. Na elke
+wijziging moet `npm run build:static` opnieuw draaien en de map `out` opnieuw
+worden geüpload.
+
+### Beveiligde verbinding
+
+Gebruik in beide gevallen https. Browsers geven alleen op een beveiligde
+verbinding toegang tot het klembord, dus zonder https werkt de knop
+"Overzicht kopiëren" niet. De applicatie toont het overzicht dan wel, zodat
+het met de hand te selecteren is.
 
 ## Bekende beperkingen
 
